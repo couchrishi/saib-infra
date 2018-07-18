@@ -1,4 +1,4 @@
 #!/bin/bash -e
 
-echo "Initializing Terraform for infra provisioning and 2-Tier App deployment"
+echo "Initializing Terraform for infra provisioning and deploying a 2-Tier App "
 terraform -init
