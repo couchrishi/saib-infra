@@ -1,0 +1,65 @@
+#cloud-config
+bootcmd: 
+  - "mkdir -p /etc/chef"
+  - "mkdir -p /var/log/chef"
+  - "mkdir -p /var/lib/chef"
+  - "mkdir -p /var/cache/chef"
+  - "mkdir -p /var/backups/chef"
+  - "mkdir -p /var/run/chef"
+
+chef: 
+  install_type: omnibus
+  node_name: TomcatApp_twotierlab
+  omnibus_url: "https://www.opscode.com/chef/install.sh"
+  output: 
+    all: "| tee -a /var/log/cloud-init-output.log"
+  run_list: 
+    - "recipe[tomcat]"
+  server_url: "https://129.146.86.73/organizations/orclbmcs"
+  validation_cert: |
+      -----BEGIN RSA PRIVATE KEY-----
+      MIIEowIBAAKCAQEAyGDj4JeIYsxVrYjdtqsqkrS72w+qYubulbLjjg+scrKBkHDH
+      Kd1NlNBqfvypDJWlziogKpcGOT84Vl+XpWI8+POp0Prh8C3RU0ALOHAOo6ewUb+c
+      pA7U0zbS3otiekxEeKIQnKAQM7OZJ1dbL2oyIExGOM39nWHbkFhDNWTk99H4S2DT
+      jLqZ9D/7i0r5Ow3vZADjUUSB/Vo3kPp0qBhquMksFkGVFbM/RtU7Sb1twzSkLu9m
+      kj0YB5sW1oKLtMTPhGQ8vTjM+KRHC//2wKNH71mnvKBpEmEZEErWRJppNJXc/4tt
+      77nhy00bibxcWWs9srBOgnA4j84YimWkVHnapwIDAQABAoIBADX6E6iOaUjj7jh+
+      4+qvFRrL4MbT43wc5SwiMjY0dqm2+DvmhV/7o0hxFB79BLTFIxL0OhH++Mg3BYAO
+      5BTC79XIHXiT/ITscrTQTbV4Shk/tLlwuktfS2lSHV+hgHedT9yHG551Z6flu13j
+      pEaTfslAgrIOm0Dn+XNas1AQy7UNue7f8wiZTdTxl/AS6YioYDfoLGuVtQoEUz/T
+      BRjU3UXrXRlK7il0J5e9WH/w245pVXqJyyiKwDRZ1ETk3vJTLRGhNiRUuO4IF+Wh
+      o5MhmoYcKb9bH22qvl/9hPuAeIaSPLTFVs+LVJeh/CY8dUprl1Gma6chpT8gxynq
+      itArwtECgYEA/FFac6u4KZx365Iktxy6IuRCvDZh/wA+3mgn8e2+Vxgg6wqL3LFk
+      8cAahhHC/miEOQt76yJLKeVuWJzFLXA8li4cVcIRshEdGR5hRSYu4xOHagkl8J3y
+      a88SlmuZHh1jU1dij0WpvQG2HeB/mItaamfoXP/RU8LT4/oQxv0Z/7MCgYEAy01+
+      gHgay1F/FK0m7laQOePheOxG4NfKYrLs8nIM9YMfwZoNBiPyLXOh6GNutgN3qdBB
+      UDDHuLmX5Wz4NyfgXp8wCXiS1Dc9UAJrxyP+Y+BznBv9HOJgSozx/h1QARAF2zIX
+      lzhB6LXjnfsDlHYINy+NT8Xi5dVjN5Hm4PTJ3z0CgYEA6PDSaOen5gKmU71gWA0V
+      axEA63HpltpLMFlIR3oNt6p2+YeLB/xeDTIlSpErTGSBbYjEppfKfKtr7DMPdpuf
+      06ZOUn4QiCx0iLQbaROPReTJp4M6m6G2JQHPTz+W5M6M3GxYeZz+z5e84mhYZCSD
+      HKlBRFqIjqPXqyk6Q/t2/TECgYA5aSHfD4upfNMhOKB0z7cc0fBbIIYHeoiphJOL
+      B5AHSMcP+fvRjxcVpMDFCkc6WRJSvv+isJPF44s0e6hAkx82OUfsdMMp8It866IZ
+      810kQT8Eh5bbsEW258RymT59flPZCXVF+9oI6Exl0Xu6UfaR9vi13VDszGyfRbFo
+      N1hGlQKBgHG4GDmQss334n6utp4emCKJ1rPvNcrFcLa/qFGESbMzj9o3bLxFbx2I
+      0cZ+suhEG2rNn9K9oZp9yVOIh1nSDrzxB3NNEax6cBcpjPu68Ju5VuC8g/LtClyK
+      3HhWmdM+2yS8AjAaxGflcREMkNbMItyQe8QSzNTf8sZ2Gylw9brI
+      -----END RSA PRIVATE KEY-----
+  validation_name: orclbmcs-validator
+runcmd: 
+  - 
+    - sh
+    - "-xc"
+    - chef-client
+  - 
+    - sh
+    - "-xc"
+    - "touch /tmp/test"
+  - wget https://dev.mysql.com/get/Downloads/Connector-J/mysql-connector-java-5.1.39.tar.gz
+  - tar xvzf mysql-connector-java-5.1.39.tar.gz
+  - sudo cp ./mysql-connector-java-5.1.39/mysql-connector-java-5.1.39-bin.jar /usr/share/tomcat/lib/
+  - IP=$(curl http://169.254.169.254/opc/v1/instance/metadata/db_ip)
+  - sudo sed -i '1,$s/<\/Context>/<Resource name="jdbc\/Test_DB" auth="Container" type="javax.sql.DataSource" maxActive="50" maxIdle="30" maxWait="10000" username="vu" password="Oracle_2017" driverClassName="com.mysql.jdbc.Driver" url="jdbc:mysql:\/\/'$IP':3306\/mysql"  factory="org.apache.commons.dbcp.BasicDataSourceFactory" \/> <\/Context>/' /usr/share/tomcat/conf/context.xml
+  - sudo service tomcat stop
+  - sudo service tomcat start
+  - sudo iptables -F  
+  

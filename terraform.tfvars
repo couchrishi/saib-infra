@@ -1,0 +1,9 @@
+
+# OCI authentication
+oci_tenancy_ocid="ocid1.tenancy.oc1..aaaaaaaadikwpd4vnjsiw3geedsal5c5shk6qtpwwp6eknw5m7m2crj4bjmq"
+oci_user_ocid="ocid1.user.oc1..aaaaaaaazd5z33ukmuhfxlfv6aldrpwkbencnbhtcowpg5ixvrsgdosfdatq"
+oci_fingerprint="f0:e3:81:a8:ff:91:52:72:1a:2e:46:b3:3b:3f:82:f7"
+oci_private_key_path="OCI_api_key.pem"
+oci_compartment_ocid="ocid1.compartment.oc1..aaaaaaaavqhgqvgd2t6hwg7do6e6fhdqzffnze2yxcydudzturlv2m4mzqsa"
+oci_ssh_public_key="ssh-rsa AAAAB3NzaC1yc2EAAAABJQAAAQEAqV9yJ9bkgkYOQPNK4ujx2nwGpiRitU8p/QIb6REVc/FeE/WXaYUXd3Hyn8z3HWQwZqLXyK6XA95LAuyXKQj0FsCvadDqeU27h3fyH5ifECzfSZOpUnAZqIEa82xP2LL2ypL9wMIs9VFXRWoKCaZ0USad3Tvtm9CSj5sy+COgX2bUqzyuUs06HgmjVVBbDI/xdSNPyVKUG3QamPlcuoO+JB6mi/IkS6itPLvQhMxe6E1YRwb0aK06THFTUMUKy2dAEXRA2ZVUM7HiQe6txQoyq15+XnWkbRdUeD+gJCodFvrIT7Jd7EvQfke4EgNeGtClM6xUAOS1c+KLGrRA14Jm0w== rsa-key-20180627"
+oci_ssh_private_key="tf_k8_pvt.ppk"
